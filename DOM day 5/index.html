@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Latihan DOM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"
+        integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand">Mini Ecommerce</a>
+            <form class="form-inline" id="formItem">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" id="keyword"
+                    onkeyup="searchData()" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="searchItem"
+                    onclick="searchData()">Search</button>
+            </form>
+            <button id="buttonCart" class="btn btn-primary" id="cart"></button>
+        </nav>
+        <div class="row">
+            <div class="col-md-12 mt-2 d-flex flex-wrap " id="listBarang">
+
+            </div>
+        </div>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script>
+        var items = [
+            ['001', 'Keyboard Logitek', 60000, 'Keyboard yang mantap untuk kantoran', 'logitek.jpg'],
+            ['002', 'Keyboard MSI', 300000, 'Keyboard gaming MSI mekanik', 'msi.jpg'],
+            ['003', 'Mouse Genius', 50000, 'Mouse Genius biar lebih pinter', 'genius.jpeg'],
+            ['004', 'Mouse Jerry', 30000, 'Mouse yang disukai kucing', 'jerry.jpg']
+        ]
+
+        var cartCounter = 0;
+
+        function dataHandling(input) {
+            var finalString = "";
+            for (i = 0; i < input.length; i++) {
+                finalString += '<div class="col-md-4">'
+                finalString += `<div class="card">`;
+                finalString += `<img src="assets/img/` + input[i][4] + `" class="w-100 d-flex" alt="` + input[i][1] +
+                    `">`
+                finalString += '<div class="card-body">'
+                finalString += '<h5 class="card-title" id="' + input[i][1] + '">' + input[i][1] + '</h5>'
+                finalString += '<p class="card-text" id="' + input[i][3] + '">' + input[i][3] + '</p>'
+                finalString += '<p class="card-text">Rp ' + input[i][2] + '</p>'
+                finalString +=
+                    '<a href="#" class="btn btn-primary" id="addCart" onclick="addToCart()">Tambahkan ke keranjang</a>'
+                finalString += `</div>`;
+                finalString += `</div>`;
+                finalString += `</div>`;
+            }
+
+            return finalString;
+        }
+
+        function addToCart() {
+            cartCounter++;
+            displayCartCounter(cartCounter)
+        }
+        displayCartCounter(cartCounter)
+
+        function displayCartCounter(counter) {
+            document.getElementById("buttonCart").innerHTML = '<i class="fas fa-shopping-cart"></i>'+'('+counter+')'
+        }
+
+        function searchData() {
+            var param = document.getElementById("keyword").value
+            param = param.toLowerCase();
+            var filtered = [];
+            var hasil = "";
+
+            if (param === "") {
+                hasil = dataHandling(items)
+            } else {
+                for (var i = 0; i < items.length; i++) {
+                    var name = items[i][1]
+                    name = name.toLowerCase();
+                    if (name.indexOf(param) > -1) {
+                        filtered.push(items[i]);
+                    }
+                }
+                hasil = dataHandling(filtered)
+            }
+
+            document.getElementById("listBarang").innerHTML = hasil
+        }
+
+        var hasil = dataHandling(items);
+
+        document.getElementById("listBarang").innerHTML = hasil
+    </script>
+</body>
+
+</html>
